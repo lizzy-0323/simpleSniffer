@@ -52,21 +52,6 @@ typedef struct iphdr
 	u_int	op_pad;		//选项等
 };
 
-//定义IP头 
-/*typedef struct iphdr
-{
-	u_char ver_ihl;
-	u_char tos;				//TOS 服务类型
-	u_short tlen;			//包总长 u_short占两个字节
-	u_short id;				//标识
-	u_short frag_off;	//片位移
-	u_char ttl;				//生存时间
-	u_char proto;		//协议
-	u_short check;		//校验和
-	u_int saddr;			//源地址
-	u_int daddr;			//目的地址
-	u_int	op_pad;		//选项等
-};*/
 
 
 //定义TCP头
@@ -104,20 +89,6 @@ typedef struct tcphdr
 	u_short urg_ptr;					//紧急指针 16位
 	u_int opt;								//选项
 };
-
-/*typedef struct tcphdr
-{
-	u_short sport;						//源端口地址  16位
-	u_short dport;						//目的端口地址 16位
-	u_int seq;								//序列号 32位
-	u_int ack_seq;						//确认序列号
-	u_short doff_flag;					//头大小、保留位、标志位
-	u_short window;					//窗口大小 16位
-	u_short check;						//校验和 16位
-	u_short urg_ptr;					//紧急指针 16位
-	u_int opt;								//选项
-};*/
-
 //定义UDP头
 typedef struct udphdr
 {
@@ -143,11 +114,6 @@ typedef struct iphdr6
 	u_int version : 4,				//版本
 		flowtype : 8,			//流类型
 		flowid : 20;				//流标签
-/*#elif defined(LITTLE_ENDIAN)
-u_int  flowid:20,				//流标签
-			flowtype:8,			//流类型
-			version:4;				//版本
-//#endif*/
 	u_short plen;					//有效载荷长度
 	u_char nh;						//下一个头部
 	u_char hlim;					//跳限制
@@ -202,5 +168,20 @@ typedef struct datapkt
 	struct tcphdr* tcph;				//TCP包头
 
 	void* apph;							//应用层包头
+};
+//定义ARP包,总长度42字节
+struct ArpPacket
+{
+	ethhdr ed;
+	arphdr ah;
+};
+//定义伪首部部分
+//定义伪头部
+struct Psdhdr {
+	unsigned long    saddr;
+	unsigned long    daddr;
+	char            mbz;
+	char            ptcl;
+	unsigned short    plen;
 };
 #endif
